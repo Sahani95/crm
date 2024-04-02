@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AuthController;
 
 use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\EmployeeController;
+use EmployeeController as GlobalEmployeeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,3 +25,4 @@ Route::get('/', [AuthController::class,'loginpage']);
 Route::post('/login',[AuthController::class,'login'])->name('AdminLogin');
 Route::get('/dashboard', [AuthController::class,'index'])->name('AdminDashboard');
 Route::resource('company',CompanyController::class);
+Route::resource('employee',EmployeeController::class);

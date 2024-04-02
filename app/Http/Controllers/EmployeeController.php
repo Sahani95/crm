@@ -1,24 +1,24 @@
 <?php
-
 namespace App\Http\Controllers;
+
 use App\Http\Controllers\Controller;
 use App\Models\Company;
-use Illuminate\Support\Facades\Storage;
+use App\Models\Employee;
 use Illuminate\Http\Request;
 use Exception;
 use Validator;
 use Illuminate\Support\Facades\Redirect;
 
-class CompanyController extends Controller
+class EmployeeController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $users = Company::get();
+        $users = Employee::get();
 
-        return view('admin.company.company_list')->withUsers($users);
+        return view('admin.employee.employee_list')->withUsers($users);
     }
 
     /**
@@ -26,7 +26,8 @@ class CompanyController extends Controller
      */
     public function create()
     {
-        return view('admin.company.add_company');
+        $cat = Company::all();
+        return view('admin.employee.add_employee')->withCat($cat);
     }
 
     /**
@@ -36,10 +37,11 @@ class CompanyController extends Controller
     {
         try{
             $rules = array(
-            'name' => 'required',            
+            'first_name' => 'required',
+            'last_name' => 'required',            
             'email' =>'required',
-            'website'  => 'required',
-            'logo' =>'required|image|mimes:jpeg,png,jpg,gif',
+            'phone'  => 'required',
+            'cat_id' =>'required',
             );
         
             $validator = Validator::make($request->all(), $rules);
@@ -47,17 +49,15 @@ class CompanyController extends Controller
             {                
             return redirect()->back()->withErrors($validator)->withInput();
             }
-                // Store the logo in the storage directory
-            $path = $request->file('logo')->store('public/logos');
-            // Extract only the filename
-            $filename = basename($path);
-            $company = new Company();
-            $company->name = $request->name;
-            $company->logo = $filename;
-            $company->email = $request->email;
-            $company->website = $request->website;
-            $company->save();
-            return Redirect::to('company')->withMessage("Company Added Successfully.");
+           
+            $employee = new Employee();
+            $employee->first_name = $request->first_name;
+            $employee->last_name = $request->last_name;
+            $employee->email = $request->email;
+            $employee->phone = $request->phone;
+            $employee->company_id = $request->cat_id;
+            $employee->save();
+            return Redirect::to('employee')->withMessage("employee Added Successfully.");
             }
             catch(Exception $e){
             return redirect()->back()->withErrors($e->getMessage());
@@ -77,8 +77,10 @@ class CompanyController extends Controller
     public function edit($id)
     {
         try{
-            $user = Company::query()->where(['id' => $id])->first();
-            return view('admin.company.update_company')->withUser($user);
+            $user = Employee::query()->where(['id' => $id])->first();
+            $categories = Company::all();
+
+            return view('admin.employee.update_employee')->withUser($user)->withCategories($categories);
            }catch(Exception $e){
              return redirect()->back()
              ->withErrors($e->getMessage());
@@ -92,30 +94,25 @@ class CompanyController extends Controller
     {
         try{
             $rules = array(
-            'name' => 'required',            
-            // 'email' =>'required',
-            'website'  => 'required',
-            'logo' =>'',     
+            'first_name' => 'required',
+            'last_name' => 'required',            
+            'email' =>'required',
+            'phone'  => 'required',
+            'cat_id' =>'',     
             );
             $validator = Validator::make($request->all(), $rules);
             if ($validator->fails()) 
             {                
             return redirect()->back()->withErrors($validator)->withInput();
             }
-            // $path = $request->file('logo');
-            // Extract only the filename
-            // $filename = basename($path);
-            $user = Company::findOrfail($request->id); 
-            $user->name = $request->name;
+            $user = Employee::findOrfail($request->id); 
+            $user->first_name = $request->first_name;
+            $user->last_name = $request->last_name;
             $user->email = $request->email;
-            $user->website = $request->website;
-            if ($request->hasFile('logo')) {
-                $path = $request->file('logo')->store('public/logos');
-                $filename = basename($path);
-                $user->logo = $filename;
-            }
+            $user->phone = $request->phone;
+           $user->company_id = $request->cat_id;
             $user->save();  
-             return Redirect::to('company')->withMessage("Company updated Successfully.");
+             return Redirect::to('employee')->withMessage("Employee updated Successfully.");
             }
             catch(Exception $e){
             return redirect()->back()->withErrors($e->getMessage());
@@ -127,10 +124,10 @@ class CompanyController extends Controller
      */
     public function destroy($id)
     {
-        $user = Company::findOrfail($id);
+        $user = Employee::findOrfail($id);
         $user->delete();
     
-        $message = "Company Deleted Successfully!";
+        $message = "Employee Deleted Successfully!";
             return redirect()->back()->withMessage($message);
     }
 }

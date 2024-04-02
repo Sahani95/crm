@@ -29,14 +29,14 @@
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                
             <li class="nav-item">
-                <a href="{{route('AdminDashboard')}}" class="nav-link {{ (request()->is('/')) ? 'active-child' : '' }}">
+                <a href="{{url('company')}}" class="nav-link {{ (request()->is('/')) ? 'active-child' : '' }}">
                     <!-- <i class="fas fa-key nav-icon"></i> -->
                     <img src="{{ asset('user.png') }}" class="nav-icon" alt="" width="10px">
                     <p>Company Management</p>
                 </a>
             </li>  
             <li class="nav-item">
-                <a href="{{route('AdminDashboard')}}" class="nav-link {{ (request()->is('/')) ? 'active-child' : '' }}">
+                <a href="{{url('employee')}}" class="nav-link {{ (request()->is('/')) ? 'active-child' : '' }}">
                     <!-- <i class="fas fa-key nav-icon"></i> -->
                     <img src="{{ asset('user.png') }}" class="nav-icon" alt="" width="10px">
                     <p>Employee Management</p>

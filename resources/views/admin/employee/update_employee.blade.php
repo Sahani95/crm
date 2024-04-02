@@ -1,0 +1,148 @@
+@extends('admin.index')
+
+@section('content')
+
+<!-- <div class="wrapper"> -->
+<style>
+    #eye{
+    cursor:pointer;
+    position: absolute;
+    left: 94%;
+    top: 17%;
+    color: #17a2b8;
+}
+</style>
+<div class="content-wrapper">
+
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <!--  -->
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="{{route('AdminDashboard')}}">Home</a></li>
+                        <li class="breadcrumb-item active">Update Employee</li>
+                    </ol>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-1"></div>
+                <div class="col-10">
+
+                    <div class="card card-info">
+                        <div class="card-header">
+                            <h3 class="card-title">Update <strong>{{$user->name}}</strong></h3>
+                        </div>
+                        <!-- /.card-header -->
+                        <!-- form start -->
+                        @include('admin.partials.messages')
+                        <form class="form-horizontal" method="post" action="{{route('employee.update',[$user->id])}}"enctype="multipart/form-data">
+                            @csrf
+                            @method('PUT')
+                            <input type="hidden" name="id" value="{{$user->id}}" />
+                            <div class="card-body">
+                                
+                                <div class="form-group row">
+                                    <label for="Name" class="col-sm-2 col-form-label">First Name</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control name" id="first_name" name="first_name" value="{{$user->first_name}}" placeholder="First Name" maxlength="40"  />
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="Name" class="col-sm-2 col-form-label">Last Name</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control name" id="last_name" name="last_name" value="{{$user->last_name}}" placeholder="Last Name" maxlength="40"  />
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="Email" class="col-sm-2 col-form-label">Email</label>
+                                    <div class="col-sm-10">
+                                        <input type="email" class="form-control" id="email" name="email" value="{{$user->email}}" placeholder="Email" maxlength="40" pattern="[^@\s]+@[^@\s]+\.[^@\s]+" title="Invalid email address" readonly />
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group row">
+                                    <label for="website" class="col-sm-2 col-form-label">Mobile</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="phone" name="phone" value="{{$user->phone}}" placeholder="phone" />
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="Menu Name" class="col-sm-2 col-form-label">Company</label>
+                                    <div class="col-sm-10">
+                                    <select class="form-control" name="cat_id" id="menuCategory" >
+                                      
+                                       @foreach($categories as $category)
+                                           <option value="{{ $category->id }}"
+                                                        {{ $category->id == $user->category_id ? 'selected' : '' }}>
+                                                       {{ $category->name }}
+                                                    </option>
+                                         @endforeach
+                                        </select>
+                                   </div>
+                                 </div>
+                                                            
+                            </div>
+                            <!-- /.card-body -->
+                            <div class="card-footer">
+                                <button type="submit" class="btn btn-info">Update Company</button>
+                                <a href="{{url('company')}}" class="btn btn-default float-right">Cancel</a>
+                            </div>
+                            <!-- /.card-footer -->
+                        </form>
+                    </div>
+                </div>
+                <div class="col-1"></div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('.name').on('keypress', function(e) {
+            var regex = new RegExp("^[a-zA-Z ]*$");
+            var str = String.fromCharCode(!e.charCode ? e.which : e.charCode);
+            if (regex.test(str)) {
+                return true;
+            }
+            e.preventDefault();
+            return false;
+        });
+    });
+</script>
+<script>
+    $(function(){
+  
+        $('#eye').click(function(){
+           
+            if($(this).hasClass('fa-eye-slash')){
+               
+              $(this).removeClass('fa-eye-slash');
+              
+              $(this).addClass('fa-eye');
+              
+              $('#password').attr('type','text');
+                
+            }else{
+             
+              $(this).removeClass('fa-eye');
+              
+              $(this).addClass('fa-eye-slash');  
+              
+              $('#password').attr('type','password');
+            }
+        });
+    });
+</script>
+<!-- </div> -->
+@endsection
+
