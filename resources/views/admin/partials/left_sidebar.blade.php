@@ -13,11 +13,11 @@
         <!-- Sidebar user panel (optional) -->
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
             <div class="image">
-                @if(auth()->user()->profile_image)
+                {{-- @if(auth()->user()->profile_image)
                 <img src="{{url(auth()->user()->profile_image) }}" class="img-circle elevation-2" alt="">
                 @else
                 <img src="{{ asset('admin/images/not_image.jpeg') }}" class="img-circle elevation-2" alt="">
-                @endif
+                @endif --}}
             </div>
             <div class="info">
                 <a href="{{route('AdminDashboard')}}" class="d-block">{{auth()->user()->name ?? ""}}</a>

@@ -2,8 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AuthController;
-use Illuminate\Http\Request;
 
+use App\Http\Controllers\CompanyController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,3 +22,4 @@ use Illuminate\Http\Request;
 Route::get('/', [AuthController::class,'loginpage']);
 Route::post('/login',[AuthController::class,'login'])->name('AdminLogin');
 Route::get('/dashboard', [AuthController::class,'index'])->name('AdminDashboard');
+Route::resource('company',CompanyController::class);
