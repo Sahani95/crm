@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
+use App\Models\Company;
+use App\Models\Employee;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
@@ -12,7 +14,9 @@ class AuthController extends Controller
 {
     public function index()
     {
-        return view('admin.admin_dashboard');
+        $countCompany = Company::count();
+        $countEmployee = Employee::count();
+        return view('admin.admin_dashboard')->withCountCompany($countCompany)->withCountEmployee($countEmployee);
     }
     public function loginpage(request $request)
     {
@@ -49,4 +53,11 @@ class AuthController extends Controller
                 ->withErrors($e->getMessage());
         }
     }
+    public function logout(Request $request) {
+        $user=auth()->user();
+         auth()->logout();
+         
+ 
+         return Redirect::to('/')->withMessage('Logged out successfully.');
+     }
 }

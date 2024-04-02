@@ -22,10 +22,21 @@
                     <a href="">
                         <div class="info-box" ;>
                             <span class="info-box-icon bg-info elevation-1"><img src="{{url('users.png')}}"></span>
-                            {{-- <div class="info-box-content">
-                                <span class="info-box-text">Users</span>
-                                <span class="info-box-number">{{$countUsers ?? 0}}</span>
-                            </div> --}}
+                            <div class="info-box-content">
+                                <span class="info-box-text">Company</span>
+                                <span class="info-box-number">{{$countCompany ?? 0}}</span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-12 col-sm-6 col-md-3">
+                    <a href="">
+                        <div class="info-box" ;>
+                            <span class="info-box-icon bg-info elevation-1"><img src="{{url('users.png')}}"></span>
+                            <div class="info-box-content">
+                                <span class="info-box-text">Employee</span>
+                                <span class="info-box-number">{{$countEmployee ?? 0}}</span>
+                            </div>
                         </div>
                     </a>
                 </div>
