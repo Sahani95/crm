@@ -16,7 +16,7 @@ class CompanyController extends Controller
      */
     public function index()
     {
-        $users = Company::get();
+        $users = Company::paginate(10);
 
         return view('admin.company.company_list')->withUsers($users);
     }
